@@ -1,0 +1,30 @@
+{
+	"client_id"     : "<client_id>",
+	"client_secret" : "<client_secret>",
+	"redirect_uri"  : "http://<path>/web/get_token.php",
+	"scope"         : "<scope>",
+	"api_authorize" : {
+		"url" : "https://accounts.google.com/o/oauth2/v2/auth",
+		"params" : 
+		{
+			"redirect_uri"  : "%redirect_uri%",
+			"prompt"        : "consent",
+			"response_type" : "code",
+			"client_id"     : "%client_id%",
+			"scope"         : "%scope%",
+			"access_type"   : "offline"
+		}
+	},
+	"api_token"     : {
+		"url"         : "https://www.googleapis.com/oauth2/v4/token",
+		"access_key"  : "access_token",
+		"refresh_key" : "refresh_token",
+		"params"   : 
+		{
+	        "client_id"      : "%client_id%",
+	        "client_secret"  : "%client_secret%",
+	        "redirect_uri"   : "%redirect_uri%",
+	        "grant_type"     : "authorization_code"
+		}
+	}
+}

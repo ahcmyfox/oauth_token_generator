@@ -1,0 +1,27 @@
+{
+	"client_id"     : "<client_id>",
+	"client_secret" : "<client_secret>",
+	"redirect_uri"  : "http://<path>/web/get_token.php",
+	"scope"         : "",
+	"api_authorize" : {
+		"url" : "https://www.dropbox.com/oauth2/authorize",
+		"params" : 
+		{
+			"redirect_uri"  : "%redirect_uri%",
+			"response_type" : "code",
+			"client_id"     : "%client_id%"
+		}
+	},
+	"api_token"     : {
+		"url"         : "https://api.dropboxapi.com/oauth2/token",
+		"access_key"  : "access_token",
+		"refresh_key" : null,
+		"params"   : 
+		{
+	        "client_id"      : "%client_id%",
+	        "client_secret"  : "%client_secret%",
+	        "redirect_uri"   : "%redirect_uri%",
+	        "grant_type"     : "authorization_code"
+		}
+	}
+}

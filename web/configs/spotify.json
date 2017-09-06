@@ -1,0 +1,32 @@
+{
+	"client_id"     : "<client_id>",
+	"client_secret" : "<client_secret>",
+	"redirect_uri"  : "http://<path>/web/get_token.php",
+	"scope"         : "",
+	"api_authorize" : {
+		"url" : "https://accounts.spotify.com/authorize",
+		"params" : 
+		{
+			"redirect_uri"  : "%redirect_uri%",
+			"response_type" : "code",
+			"client_id"     : "%client_id%",
+			"show_dialog"   : "true"
+		}
+	},
+	"api_token"     : {
+		"url"         : "https://accounts.spotify.com/api/token",
+		"access_key"  : "access_token",
+		"refresh_key" : "refresh_token",
+		"headers" :
+		{
+			"Authorization" : "Basic "
+		},
+		"params"   : 
+		{
+	        "client_id"      : "%client_id%",
+	        "client_secret"  : "%client_secret%",
+	        "redirect_uri"   : "%redirect_uri%",
+	        "grant_type"     : "authorization_code"
+		}
+	}
+}

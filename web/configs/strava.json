@@ -1,0 +1,28 @@
+{
+	"client_id"     : "<client_id>",
+	"client_secret" : "<client_secret>",
+	"redirect_uri"  : "http://<path>/web/get_token.php",
+	"scope"         : "<scope>",
+	"api_authorize" : {
+		"url" : "https://www.strava.com/oauth/authorize",
+		"params" : 
+		{
+			"redirect_uri"    : "%redirect_uri%",
+			"response_type"   : "code",
+			"client_id"       : "%client_id%",
+			"approval_prompt" : "force",
+			"scope"           : "%scope%"
+		}
+	},
+	"api_token"     : {
+		"url"         : "https://www.strava.com/oauth/token",
+		"access_key"  : "access_token",
+		"refresh_key" : null,
+		"params"   : 
+		{
+	        "client_id"      : "%client_id%",
+	        "client_secret"  : "%client_secret%",
+	        "redirect_uri"   : "%redirect_uri%"
+		}
+	}
+}
