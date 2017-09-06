@@ -9,7 +9,11 @@ Generic workflow to generate oauth tokens
 
 Make a `<service>.json` file in the `web/configs` directory, based on examples.
 
-You can also fill the given examples configs with your fields (`client_id`, `client_secret`, `redirect_uri`, `scope`, ...)
+## Configure a service
+
+Fill the json configuration file with your fields (`client_id`, `client_secret`, `redirect_uri`, `scope`, ...)
+
+Declare the `redirect_uri = http://<path>/web/get_token.php` in the service api application configuration.
 
 ## Use
 
