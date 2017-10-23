@@ -1,6 +1,10 @@
 <?php
 
-require '../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
+
+$loader = new Twig_Loader_Filesystem(__DIR__.'/../templates');
+$twig   = new Twig_Environment($loader, []);
+$client = new GuzzleHttp\Client();
 
 // Read the config to use
 if (isset($_GET['state'])) 
@@ -34,7 +38,10 @@ if (isset($_GET['code']))
 }
 else
 {
-	echo "ERROR : missing authorization code in GET parameters";
+	echo $twig->render('token.twig', [
+		'title' => sprintf('%s authentication', $_GET['state']), 
+		'boxes' => ['Error' => 'missing authorization code in GET parameters']
+	]);
 	die();
 }
 
@@ -49,7 +56,6 @@ else
 }
 
 // Execute the request to get the tokens
-$client = new GuzzleHttp\Client();
 try
 {
 	$res = $client->request('POST', $config['api_token']['url'], [
@@ -60,22 +66,27 @@ try
 }
 catch (Exception $e)
 {
-	echo "<p style='font-size:24px'> Error </p>";
-	echo "<p>" . $e->getResponse()->getBody(true) . "</p>";
+	echo $twig->render('token.twig', [
+		'title' => sprintf('%s authentication', $_GET['state']), 
+		'boxes' => ['Error' => $e->getResponse()->getBody(true)]
+	]);
 	die();
 }
 
 // Read the tokens in the answer
-
 $answer = json_decode($res->getBody(), true);
 
-echo "<p style='font-size:24px'> And you access token is ...</p>";
-echo "<p>".$answer[$config['api_token']['access_key']]."</p>";
+$tokens = [sprintf('And your %s access token is...', $_GET['state']) => $answer[$config['api_token']['access_key']]];
 
-if ($config['api_token']['refresh_key'])
+if (array_key_exists('refresh_key', $config['api_token']))
 {
-	echo "<p style='font-size:24px'> Your refresh token is ...</p>";
-	echo "<p>".$answer[$config['api_token']['refresh_key']]."</p>";
+	if ($config['api_token']['refresh_key'])
+	{
+		$tokens[sprintf('%s refresh token', $_GET['state'])] = $answer[$config['api_token']['refresh_key']];
+	}
 }
+
+// Render the view to display the tokens
+echo $twig->render('token.twig', ['title' => sprintf('%s authentication', $_GET['state']), 'boxes' => $tokens]);
 
 ?>

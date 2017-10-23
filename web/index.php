@@ -1,5 +1,10 @@
 <?php
 
+require __DIR__.'/../vendor/autoload.php';
+
+$loader = new Twig_Loader_Filesystem(__DIR__.'/../templates');
+$twig   = new Twig_Environment($loader, []);
+
 // Read the config to use
 if (isset($_GET['config'])) 
 {
@@ -7,7 +12,7 @@ if (isset($_GET['config']))
 }
 else
 {
-	echo "Missing GET parameter config";
+	echo $twig->render('token.twig', ['boxes' => ['Error' => "Missing GET parameter config"]]);
 	die();
 }
 
